@@ -6,6 +6,8 @@ sobrevivem a reinícios e retomada de posição por URL. Não abre navegador e n
 carrega vídeo. É uma ferramenta pessoal: fila plana, sem tags nem smart
 playlists.
 
+![Chip na barra e popup de controles do YouTube Radio](preview.png)
+
 ## Requisitos
 
 | Dependência | Uso | Obrigatória |
@@ -183,7 +185,9 @@ BarWidget.qml (kind: bar-widget, 1 por monitor)
 ```
 
 - O mpv é lançado com `setsid --fork`, então **sobrevive ao reload do shell**; ao
-  subir, o service adota o processo vivo (`pgrep`) e reconecta no soquete.
+  subir, o service adota o processo vivo (`pgrep`), reconecta no soquete e
+  **repõe a fila do popup** a partir de `queue.json` (a reprodução continua de
+  onde estava, sem interrupção).
 - A **fila é a playlist nativa do mpv** (`loadlist`/`playlist-next`/`loop-*`); o
   plugin é dono do conteúdo e o mpv do estado da reprodução.
 - Modos: `sequential` (`loop-file=no`, `loop-playlist=no`), `repeat-one`
