@@ -71,7 +71,9 @@ carrega normalmente só com o rescan.
 - Aba **Tocando**: fila atual, item em reprodução destacado, subir/descer/remover
   (quando a fila veio de uma playlist), "Salvar faixa atual" e "Reaplicar fila".
 - Aba **Buscar**: um campo para colar URL (toca direto) ou digitar um termo
-  (lista resultados do `yt-dlp` para escolher por clique ou número).
+  (lista resultados do `yt-dlp` para escolher por clique ou número). A lista é
+  numerada de 1 a `maxResults` (padrão 10): `1`–`9` tocam aquele resultado
+  direto e `↑`/`↓` + `⏎` (ou clique) alcançam qualquer um, inclusive acima de 9.
 - Aba **Playlists**: criar, tocar, renomear, apagar (com confirmação em dois
   cliques), expandir para editar itens e "Salvar faixa atual aqui".
 
@@ -137,7 +139,7 @@ entrada do widget):
 | Chave | Padrão | Descrição |
 |---|---|---|
 | `socketPath` | vazio | vazio usa `$XDG_RUNTIME_DIR/youtube-radio/mpv.sock` (ou `/tmp/...`) |
-| `maxResults` | 10 | resultados por busca |
+| `maxResults` | 10 | resultados por busca (schema: 1–25; o painel de settings respeita o limite, `omarchy bar set` não valida) |
 | `idleQuitMinutes` | 30 | sai do mpv após N minutos ocioso (0 = nunca) |
 | `stallTimeoutSeconds` | 120 | live sem avanço por N s → pula de faixa (0 = desliga) |
 | `resumeMinSeconds` | 30 | posição mínima para valer retomada |
