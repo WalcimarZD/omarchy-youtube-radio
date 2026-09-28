@@ -3,9 +3,11 @@
   "id": "youtube-radio",
   "name": "YouTube Radio",
   "version": "0.1.0",
-  "author": "walcimar",
+  "author": "Walcimar Zanque Denadai",
   "license": "MIT",
   "description": "Toca apenas o audio de videos, lives e playlists do YouTube via mpv + yt-dlp, com chip na barra, popup de controles, busca e playlists locais.",
+  "homepage": "https://github.com/WalcimarZD/omarchy-youtube-radio",
+  "repository": "https://github.com/WalcimarZD/omarchy-youtube-radio",
   "keywords": [
     "youtube",
     "audio",

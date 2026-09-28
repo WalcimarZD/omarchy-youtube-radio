@@ -20,13 +20,13 @@ Nada de Python, Node ou runtimes extras em tempo de uso.
 ## Instalação
 
 ```bash
-omarchy plugin add https://github.com/<voce>/youtube-radio --enable
+omarchy plugin add https://github.com/WalcimarZD/omarchy-youtube-radio --enable
 ```
 
-Ou, para desenvolvimento local:
+Ou, para desenvolvimento local (de dentro do checkout):
 
 ```bash
-cp -r youtube-radio ~/.config/omarchy/plugins/
+cp -r . ~/.config/omarchy/plugins/youtube-radio
 omarchy-shell shell rescanPlugins
 omarchy plugin enable youtube-radio --section center --after omarchy.weather
 ```
