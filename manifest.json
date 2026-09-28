@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "id": "youtube-radio",
+  "name": "YouTube Radio",
+  "version": "0.1.0",
+  "author": "walcimar",
+  "license": "MIT",
+  "description": "Toca apenas o audio de videos, lives e playlists do YouTube via mpv + yt-dlp, com chip na barra, popup de controles, busca e playlists locais.",
+  "keywords": [
+    "youtube",
+    "audio",
+    "radio",
+    "mpv",
+    "yt-dlp",
+    "live",
+    "playlist"
+  ],
+  "kinds": [
+    "service",
+    "bar-widget"
+  ],
+  "keepLoaded": true,
+  "entryPoints": {
+    "service": "Service.qml",
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "YouTube Radio",
+    "description": "Audio do YouTube: play/pause, +-15s, volume, busca e playlists locais.",
+    "category": "Media",
+    "aliases": [
+      "yt-radio",
+      "radio"
+    ],
+    "allowMultiple": false,
+    "defaultSection": "right",
+    "defaults": {
+      "socketPath": "",
+      "maxResults": 10,
+      "idleQuitMinutes": 30,
+      "stallTimeoutSeconds": 120,
+      "resumeMinSeconds": 30,
+      "barTitleMaxChars": 42,
+      "showTimeInBar": false,
+      "ytdlFormat": "bestaudio/best",
+      "defaultVolume": 80,
+      "extraMpvArgs": ""
+    },
+    "schema": [
+      {
+        "key": "socketPath",
+        "type": "string",
+        "label": "Caminho do soquete IPC do mpv",
+        "description": "Vazio usa $XDG_RUNTIME_DIR/youtube-radio/mpv.sock (ou /tmp/youtube-radio/mpv.sock se a variavel nao existir).",
+        "defaultValue": ""
+      },
+      {
+        "key": "maxResults",
+        "type": "integer",
+        "label": "Resultados por busca",
+        "min": 1,
+        "max": 25,
+        "step": 1,
+        "defaultValue": 10
+      },
+      {
+        "key": "idleQuitMinutes",
+        "type": "integer",
+        "label": "Sair do mpv apos minutos ocioso",
+        "description": "0 mantem o mpv sempre vivo (retomada instantanea).",
+        "min": 0,
+        "max": 480,
+        "step": 5,
+        "defaultValue": 30
+      },
+      {
+        "key": "stallTimeoutSeconds",
+        "type": "integer",
+        "label": "Timeout de live travada (s)",
+        "description": "Se uma transmissao ao vivo parar de avancar por este tempo, pula para o proximo item. 0 desliga.",
+        "min": 0,
+        "max": 900,
+        "step": 15,
+        "defaultValue": 120
+      },
+      {
+        "key": "resumeMinSeconds",
+        "type": "integer",
+        "label": "Minimo para retomar (s)",
+        "description": "Posicoes salvas abaixo disso sao ignoradas ao recomecar uma URL.",
+        "min": 0,
+        "max": 600,
+        "step": 5,
+        "defaultValue": 30
+      },
+      {
+        "key": "barTitleMaxChars",
+        "type": "integer",
+        "label": "Caracteres do titulo na barra",
+        "min": 10,
+        "max": 120,
+        "step": 2,
+        "defaultValue": 42
+      },
+      {
+        "key": "showTimeInBar",
+        "type": "boolean",
+        "label": "Mostrar tempo na barra",
+        "description": "Exibe mm:ss ao lado do titulo no chip.",
+        "defaultValue": false
+      },
+      {
+        "key": "ytdlFormat",
+        "type": "string",
+        "label": "Formato do yt-dlp",
+        "description": "Repassado ao mpv como --ytdl-format. bestaudio/best evita qualquer fluxo de video.",
+        "defaultValue": "bestaudio/best"
+      },
+      {
+        "key": "defaultVolume",
+        "type": "integer",
+        "label": "Volume inicial",
+        "min": 0,
+        "max": 130,
+        "step": 5,
+        "defaultValue": 80
+      },
+      {
+        "key": "extraMpvArgs",
+        "type": "string",
+        "label": "Argumentos extras do mpv",
+        "description": "Avancado. Separados por espaco, sem shell e sem aspas.",
+        "defaultValue": ""
+      }
+    ]
+  }
+}
