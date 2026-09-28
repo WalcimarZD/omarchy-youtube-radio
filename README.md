@@ -28,8 +28,19 @@ Ou, para desenvolvimento local:
 ```bash
 cp -r youtube-radio ~/.config/omarchy/plugins/
 omarchy-shell shell rescanPlugins
-omarchy plugin enable youtube-radio --section right
+omarchy plugin enable youtube-radio --section center --after omarchy.weather
 ```
+
+A posição é livre: a barra aceita o widget em qualquer seção. Para movê-lo
+depois (sem editar `shell.json` à mão):
+
+```bash
+omarchy bar move youtube-radio --section center --after omarchy.weather
+omarchy bar move youtube-radio --section right --after omarchy.tray
+omarchy bar move youtube-radio --section left  --index 0
+```
+
+A mudança recarrega na hora (o shell observa `shell.json`).
 
 Atalho recomendado (`~/.config/hypr/bindings.lua`):
 
