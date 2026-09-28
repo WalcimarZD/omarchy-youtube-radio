@@ -52,6 +52,19 @@ Panel {
     }
   }
 
+  // `omarchy bar set` grava strings por padrao (a menos de --json), enquanto o
+  // painel de settings grava booleanos de verdade: aceita os dois formatos.
+  function flag(name, fallback) {
+    var value = root.setting(name, fallback)
+    if (value === true || value === 1) return true
+    if (value === false || value === 0) return false
+    if (typeof value === "string") {
+      var text = value.toLowerCase()
+      return text === "true" || text === "1" || text === "yes" || text === "on"
+    }
+    return fallback === true
+  }
+
   Timer {
     id: serviceRetry
     interval: 500
@@ -125,7 +138,7 @@ Panel {
     if (title === "") title = "YouTube Radio"
     text += title
     if (root.playingNow || root.pausedNow) text += " " + root.stateGlyph
-    if (root.setting("showTimeInBar", false) === true && root.svc && root.svc.seekable && root.svc.duration > 0) {
+    if (root.flag("showTimeInBar", false) && root.svc && root.svc.seekable && root.svc.duration > 0) {
       text += " " + Model.formatTime(root.svc.position)
     }
     return text
