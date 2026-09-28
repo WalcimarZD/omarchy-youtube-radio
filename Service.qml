@@ -130,6 +130,7 @@ Item {
   property bool statusDirty: true
   property bool queuePendingLoad: false
   property bool m3uSaved: false
+  property bool queueRestored: false
   property string pendingSeekValue: ""
 
   // watchdog de transmissao ao vivo
@@ -262,13 +263,48 @@ Item {
     onSaveFailed: root.setError("falha ao gravar a fila")
   }
 
-  // Espelho legivel da fila (rotulos + URLs resolvidas) para diagnostico.
+  // Espelho legivel da fila (rotulos + URLs resolvidas). Tambem e o que permite
+  // repor a fila no popup depois de um reload do shell: o mpv continua tocando,
+  // mas a lista em memoria teria se perdido.
   FileView {
     id: queueJsonFile
     path: root.queueJsonPath
     watchChanges: false
     atomicWrites: true
     printErrors: false
+    onLoaded: root.restoreQueue(text())
+    onLoadFailed: root.queueRestored = true
+  }
+
+  function restoreQueue(raw) {
+    if (root.queueRestored) return
+    root.queueRestored = true
+    if (root.queue.length > 0) return
+    var parsed = Model.parseStatusJson(raw)
+    if (!parsed || !Array.isArray(parsed.items) || parsed.items.length === 0) return
+    var queue = []
+    var playable = []
+    for (var i = 0; i < parsed.items.length; i++) {
+      var entry = parsed.items[i] || {}
+      var item = Model.normalizeItem(entry)
+      if (!item) continue
+      queue.push({
+        kind: item.kind,
+        value: item.value,
+        url: entry.url ? String(entry.url) : (item.kind === "url" ? item.value : ""),
+        label: String(entry.label || item.value)
+      })
+    }
+    if (queue.length === 0) return
+    for (var j = 0; j < queue.length; j++) {
+      if (queue[j].url !== "") playable.push({ url: queue[j].url, queueIndex: j })
+    }
+    root.queue = queue
+    root.playable = playable
+    root.m3uSaved = playable.length > 0
+    root.updateCurrentIndex()
+    root.logEvent("fila reposta do disco (" + queue.length + " itens)")
+    root.markStatusDirty()
   }
 
   function loadPlaylists(raw) {
